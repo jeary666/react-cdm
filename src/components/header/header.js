@@ -1,12 +1,14 @@
 import React,{ useState } from 'react'
 import { Menu } from 'antd';
+import {NavLink} from 'react-router-dom'
 import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
-import './header.less'
+import './header.scss'
 
 const { SubMenu } = Menu;
 
 const Header = ()=> {
-  const [ current , setCurrent ] = useState('mail');
+
+  const [ current , setCurrent ] = useState('system');
 
   function handleClick(e) {
     setCurrent({
@@ -15,14 +17,17 @@ const Header = ()=> {
   }
 
   return (
-    <div className="header">
+    <>
+    <div className="nav">
        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="mail" icon={<MailOutlined />}>
-           运行态势
+          <NavLink  to="/runState/参数" >运行态势</NavLink>
           </Menu.Item>
           <SubMenu icon={<SettingOutlined />} title="航班协同">
           <Menu.ItemGroup >
-            <Menu.Item key="setting:1">航班动态出港</Menu.Item>
+            <Menu.Item key="setting:1">
+            <NavLink  to="/" >航班出港页面</NavLink>
+            </Menu.Item>
           </Menu.ItemGroup>
         </SubMenu>
           <Menu.Item key="process"  icon={<AppstoreOutlined />}>
@@ -33,6 +38,7 @@ const Header = ()=> {
           </Menu.Item>
         </Menu>
     </div>
+    </>
   )
 }
 
