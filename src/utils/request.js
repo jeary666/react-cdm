@@ -1,24 +1,31 @@
-
 import axios from "axios";
+import {localStore} from '../utils/localStore'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: 'http://192.169.53.121:30281',
+  baseURL: "http://192.168.53.64:30015",
   withCredentials: false, // 跨域请求时发送 cookies
-  timeout: 50000 // request timeout
+  timeout: 50000, // request timeout
 });
 
 // request interceptor
 service.interceptors.request.use(
-  config => {
+  (config) => {
+    const token = localStore.get('token')
+    if(token) {
+      config.headers['token'] = token
+    }
 
-      console.log(config);
-
-
+    config.data = {
+      body: config.data,
+      reqHead: {
+        timestamp: +new Date(),
+      },
+    };
 
     return config;
   },
-  error => {
+  (error) => {
     console.log(error); // for debug
     return Promise.reject(error);
   }
@@ -26,7 +33,7 @@ service.interceptors.request.use(
 
 // response interceptor
 service.interceptors.response.use(
-  response => {
+  (response) => {
     const res = response.data;
     // 这里是获取验证码图片
     if (res.constructor === ArrayBuffer) {
@@ -51,7 +58,7 @@ service.interceptors.response.use(
       res.respHead.code === "100503" ||
       res.respHead.code === "100509"
     ) {
-      console.log("未登录或登录已过期, 请重新登录！")
+      console.log("未登录或登录已过期, 请重新登录！");
       // store.dispatch("user/logout").then(() => {
       //   location.reload();
       // });
@@ -60,7 +67,7 @@ service.interceptors.response.use(
       return res;
     }
   },
-  error => {
+  (error) => {
     const { data } = error.response;
     if (data.status === 500) {
       console.log(data.message);
@@ -74,4 +81,3 @@ service.interceptors.response.use(
 );
 
 export default service;
-

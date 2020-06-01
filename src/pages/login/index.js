@@ -3,8 +3,8 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import {md5} from '../../utils/encryption'
 import {login} from '../../api/login'
+import {localStore} from '../../utils/localStore'
 import './index.scss'
-import { FormProvider } from "antd/lib/form/context";
 
 const layout = {
   labelCol: {
@@ -21,16 +21,19 @@ const tailLayout = {
   },
 };
 
-const Login =() => {
+const Login =(props) => {
 
   const onFinish = async (values) => {
-    console.log(values);
     let {username,password} = values
     let params = {
       name: username,
       password: md5(password)
     }
     let res = await login(params)
+    let {token} = res.body
+    // console.log(res);
+    localStore.set('token',token)
+    props.history.push('/')
   };
 
   const onFinishFailed = (errorInfo) => {

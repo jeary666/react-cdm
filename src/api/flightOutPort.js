@@ -1,8 +1,8 @@
 import request from '../utils/request'
 
-export function login(data) {
+export function getTableDatas(data) {
   return request({
-    url: `/web/pass/systemmana/SecurityController/login`,
+    url: `/web/auth/flightcollab/flightDynamic/list`,
     method: "post",
     data
   });
