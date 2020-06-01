@@ -3,7 +3,7 @@ import React from "react";
 import { Form, Input, Button, Checkbox } from "antd";
 import {md5} from '../../utils/encryption'
 import {login} from '../../api/login'
-import './index.css'
+import './index.scss'
 import { FormProvider } from "antd/lib/form/context";
 
 const layout = {

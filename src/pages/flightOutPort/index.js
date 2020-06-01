@@ -1,10 +1,17 @@
 // 出港页面
-import React from "react";
+import React, { Component } from 'react';
 
-const FlightOut = ()=>{
-  return(
-    <div>出港页面</div>
-  )
+import Filter from './filter'
+
+class FlightOut extends Component {
+  render() {
+    return (
+      <div>
+        <Filter></Filter>
+        出港页面
+      </div>
+    );
+  }
 }
 
-export default FlightOut
+export default FlightOut;
